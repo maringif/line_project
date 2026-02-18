@@ -6,22 +6,24 @@
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
         async function main() {
-            // LIFF IDで初期化
-            await liff.init({ liffId: "2009124707-vEjjJ4oC" }); 
+            try {
+                // LIFFの初期化
+                await liff.init({ liffId: "2009124707-vEjjJ4oC" }); 
 
-            if (!liff.isLoggedIn()) {
-                // ログインしていなければログイン画面へ
-                liff.login();
-            } else {
-                // ユーザープロファイルからLINEの内部IDを取得
-                const profile = await liff.getProfile();
-                const userId = profile.userId;
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                } else {
+                    const profile = await liff.getProfile();
+                    const userId = profile.userId;
 
-                // GoogleフォームのURL
-                const googleFormUrl = `https://docs.google.com/forms/d/e/1FAIpQLScvMq-biijq1s03rlpMatYgAqxmvha0fwqE8jL46_oOJ_JaDQ/viewform?usp=pp_url&entry.1724647685=${userId}`;
-                
-                // フォームへリダイレクト
-                window.location.href = googleFormUrl;
+                    // URLを一行で正確に記述します（改行やスペース厳禁）
+                    const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScvMq-biijq1s03rlpMatYgAqxmvha0fwqE8jL46_oOJ_JaDQ/viewform?usp=pp_url&entry.1724647685=" + userId;
+                    
+                    window.location.href = googleFormUrl;
+                }
+            } catch (error) {
+                console.error('LIFF Error:', error);
+                alert('エラーが発生しました: ' + error.message);
             }
         }
         main();
