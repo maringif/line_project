@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>フォームへ移動中...</title>
+</head>
+<body>
+    <p id="status">LINE認証を確認しています。少々お待ちください...</p>
+
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
         async function main() {
@@ -16,9 +21,10 @@
                     const profile = await liff.getProfile();
                     const userId = profile.userId;
 
-                    // URLを一行で正確に記述します（改行やスペース厳禁）
+                    // GoogleフォームのURLを組み立て
                     const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLScvMq-biijq1s03rlpMatYgAqxmvha0fwqE8jL46_oOJ_JaDQ/viewform?usp=pp_url&entry.1724647685=" + userId;
                     
+                    document.getElementById('status').innerText = "フォームへ移動しています...";
                     window.location.href = googleFormUrl;
                 }
             } catch (error) {
@@ -26,10 +32,8 @@
                 alert('エラーが発生しました: ' + error.message);
             }
         }
-        main();
+        // 画面の読み込みが完全に終わってから実行
+        window.onload = main;
     </script>
-</head>
-<body>
-    <p>LINE認証を確認しています。少々お待ちください...</p>
 </body>
 </html>
